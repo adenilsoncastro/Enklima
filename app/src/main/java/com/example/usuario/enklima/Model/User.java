@@ -1,10 +1,10 @@
 package com.example.usuario.enklima.Model;
 
-/**
- * Created by oluis on 11/11/2017.
- */
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.io.Serializable;
 
-public class User {
+public class User implements Serializable {
 
     private String id;
     private String login;
@@ -32,5 +32,13 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void JSonToUser(String json) throws JSONException {
+        JSONObject jsonObj = new JSONObject(json);
+
+        this.id = jsonObj.getString("_id");
+        this.login = jsonObj.getString("login");
+        this.password = jsonObj.getString("password");
     }
 }

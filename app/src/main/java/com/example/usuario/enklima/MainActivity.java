@@ -1,5 +1,6 @@
 package com.example.usuario.enklima;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usuario.enklima.Model.User;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +55,15 @@ public class MainActivity extends AppCompatActivity {
                 {
                     @Override
                     public void onResponse(String response) {
-                        Log.d("Response", response);
+                       User userFromWs = new User();
+                        try {
+                            userFromWs.JSonToUser(response);
+
+                            goToMenu(user);
+                        }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener()
@@ -72,6 +84,11 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         queue.add(postRequest);
+    }
 
+    public void goToMenu(User user){
+        Intent i = new Intent(this, BoasVindasActivity.class);
+        i.putExtra("user", user);
+        startActivity(i);
     }
 }
