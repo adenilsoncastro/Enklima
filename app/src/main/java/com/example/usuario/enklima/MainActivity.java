@@ -23,9 +23,8 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String wsUrl = "http://35.167.241.68:3000";
+    private final String wsUrl = "http://35.167.241.68:5000";
     private final String wsLoginUrl = wsUrl + "/users/login";
-
 
     private EditText login;
     private EditText password;
@@ -46,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
     public void login(View v){
 
         final User user = new User();
+
+        User userDev = new User();
+        userDev.setLogin("LUIS");
+        userDev.setId("5a0721eb7303480c4e4e8a5e");
+        goToMenu(userDev);
 
         user.setLogin(login.getText().toString());
         user.setPassword(password.getText().toString());

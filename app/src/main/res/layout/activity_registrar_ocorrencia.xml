@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.usuario.enklima.RegistrarOcorrenciaActivity">
+
+    <TextView
+        android:id="@+id/txtTopo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:text="Registrar Ocorrência"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/lblTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtTopo"
+        android:layout_marginEnd="22dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginTop="42dp"
+        android:layout_toLeftOf="@+id/txtTopo"
+        android:layout_toStartOf="@+id/txtTopo"
+        android:text="Título"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/txtTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/lblTitulo"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/lblOcorrencia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblTitulo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:text="Informe a ocorrência abaixo:"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/txtOcorrencia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblOcorrencia"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp"
+        android:ems="10"
+        android:inputType="textMultiLine" />
+
+    <ImageButton
+        android:id="@+id/btnCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtOcorrencia"
+        android:layout_marginTop="11dp"
+        android:layout_toLeftOf="@+id/lblOcorrencia"
+        android:layout_toStartOf="@+id/lblOcorrencia"
+        android:onClick="btnTirarFoto"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnCamera"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        app:srcCompat="@android:color/background_light" />
+
+    <Button
+        android:id="@+id/btnEnviar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/img"
+        android:layout_alignLeft="@+id/img"
+        android:layout_alignStart="@+id/img"
+        android:text="Enviar Ocorrência" />
+
+</RelativeLayout>

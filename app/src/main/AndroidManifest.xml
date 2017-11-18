@@ -3,6 +3,9 @@
     package="com.example.usuario.enklima">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature android:name="android.hardware.camera.any" android:required="true"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -18,7 +21,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BoasVindasActivity"></activity>
+        <activity android:name=".BoasVindasActivity" />
+        <activity android:name=".RegistrarOcorrenciaActivity" />
+        <activity android:name=".ConsultarOcorrenciasActivity"></activity>
+
+        <provider
+            android:authorities="com.example.usuario.enklima.fileprovider"
+            android:name="android.support.v4.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+
     </application>
 
 </manifest>
