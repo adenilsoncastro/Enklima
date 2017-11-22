@@ -13,11 +13,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.usuario.enklima.Model.Occurrence;
 import com.example.usuario.enklima.Model.User;
 import com.example.usuario.enklima.Utils.FileUtils;
@@ -33,7 +36,10 @@ import java.util.Map;
 public class RegistrarOcorrenciaActivity extends AppCompatActivity {
 
     private final String wsUrl = "http://35.167.241.68:5000";
+    private final String wsUrlDev = "http://localhost:3000/";
     private final String wsNewOccurrenceUrl = wsUrl + "/occurrences/insert";
+    private final String wsNewOccurrenceUrlDev = wsUrlDev + "/occurrences/insert";
+
 
     private EditText txtTitulo;
     private EditText txtOcorrencia;
@@ -43,6 +49,8 @@ public class RegistrarOcorrenciaActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private Occurrence ocorrencia;
+
+    private RequestQueue queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +62,8 @@ public class RegistrarOcorrenciaActivity extends AppCompatActivity {
         img = (ImageView) findViewById(R.id.img);
 
         ocorrencia = new Occurrence();
+
+        queue = Volley.newRequestQueue(this);
     }
 
     public void btnTirarFoto(View v)
@@ -99,8 +109,8 @@ public class RegistrarOcorrenciaActivity extends AppCompatActivity {
         }
     }
 
-    public void btnEnviarOcorrencia(View v){
-        StringRequest postRequest = new StringRequest(Request.Method.POST, wsNewOccurrenceUrl,
+    public void btnSendOccurrenceClick(View v){
+        StringRequest postRequest = new StringRequest(Request.Method.POST, wsNewOccurrenceUrlDev,
                 new Response.Listener<String>()
                 {
                     @Override
@@ -108,10 +118,12 @@ public class RegistrarOcorrenciaActivity extends AppCompatActivity {
                         Occurrence occurrenceFromWs = new Occurrence();
                         try {
                             occurrenceFromWs.JSonToOccurrence(response);
+                            Toast.makeText(RegistrarOcorrenciaActivity.this, "Ocorrência enviada com sucesso!", Toast.LENGTH_LONG).show();
 
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
+                            Toast.makeText(RegistrarOcorrenciaActivity.this, "Erro!", Toast.LENGTH_LONG).show();
                         }
                     }
                 },
@@ -119,7 +131,7 @@ public class RegistrarOcorrenciaActivity extends AppCompatActivity {
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("Error.Response", error.toString());
+                        Toast.makeText(RegistrarOcorrenciaActivity.this, "Erro ao enviar a ocorrência!", Toast.LENGTH_LONG).show();
                     }
                 }
         ) {
