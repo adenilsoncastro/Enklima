@@ -1,5 +1,10 @@
 package com.example.usuario.enklima;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -110,40 +115,60 @@ public class RegistrarOcorrenciaActivity extends AppCompatActivity {
     }
 
     public void btnSendOccurrenceClick(View v){
-        StringRequest postRequest = new StringRequest(Request.Method.POST, wsNewOccurrenceUrl,
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String response) {
-                        Occurrence occurrenceFromWs = new Occurrence();
-                        try {
-                            occurrenceFromWs.JSonToOccurrence(response);
-                            Toast.makeText(RegistrarOcorrenciaActivity.this, "Ocorrência enviada com sucesso!", Toast.LENGTH_LONG).show();
 
-                        }
-                        catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(RegistrarOcorrenciaActivity.this, "Erro!", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(RegistrarOcorrenciaActivity.this, "Erro ao enviar a ocorrência!", Toast.LENGTH_LONG).show();
-                    }
-                }
-        ) {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
-            protected Map<String, String> getParams() {
-                Map<String, String>  params = new HashMap<String, String>();
-                params.put("title", ocorrencia.getTitulo());
-                params.put("details", ocorrencia.getDescricao());
-                params.put("image", ocorrencia.getImage().toString());
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch(i){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        StringRequest postRequest = new StringRequest(Request.Method.POST, wsNewOccurrenceUrl,
+                                new Response.Listener<String>()
+                                {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        Occurrence occurrenceFromWs = new Occurrence();
+                                        try {
+                                            occurrenceFromWs.JSonToOccurrence(response);
+                                            Toast.makeText(RegistrarOcorrenciaActivity.this, "Ocorrência enviada com sucesso!", Toast.LENGTH_LONG).show();
 
-                return params;
+                                        }
+                                        catch (JSONException e) {
+                                            e.printStackTrace();
+                                            Toast.makeText(RegistrarOcorrenciaActivity.this, "Erro!", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                },
+                                new Response.ErrorListener()
+                                {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Toast.makeText(RegistrarOcorrenciaActivity.this, "Erro ao enviar a ocorrência!", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                        ) {
+                            @Override
+                            protected Map<String, String> getParams() {
+                                Map<String, String>  params = new HashMap<String, String>();
+                                params.put("title", ocorrencia.getTitulo());
+                                params.put("details", ocorrencia.getDescricao());
+                                params.put("image", ocorrencia.getImage().toString());
+
+                                return params;
+                            }
+                        };
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        Toast.makeText(RegistrarOcorrenciaActivity.this, "Envio cancelado!", Toast.LENGTH_LONG).show();
+                        break;
+                }
             }
         };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(RegistrarOcorrenciaActivity.this);
+        builder.setMessage("Confirma o envio?").setPositiveButton("Sim", dialogClickListener)
+                .setNegativeButton("Não", dialogClickListener).show();
+
+
     }
 }
