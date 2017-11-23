@@ -24,11 +24,11 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    //private final String wsUrl = "http://35.167.241.68:5000";
-    //private final String wsLoginUrl = wsUrl + "/users/login";
-
-    private final String wsUrl = "http://localhost:3000/";
+    private final String wsUrl = "http://35.167.241.68:5000";
     private final String wsLoginUrl = wsUrl + "/users/login";
+
+    //private final String wsUrl = "http://localhost:3000/";
+    //private final String wsLoginUrl = wsUrl + "/users/login";
 
     private EditText login;
     private EditText password;

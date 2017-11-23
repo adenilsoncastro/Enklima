@@ -88,6 +88,7 @@
         android:layout_above="@+id/img"
         android:layout_alignLeft="@+id/img"
         android:layout_alignStart="@+id/img"
+        android:onClick="btnSendOccurrenceClick"
         android:text="Enviar Ocorrência" />
 
 </RelativeLayout>

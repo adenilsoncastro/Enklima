@@ -110,7 +110,7 @@ public class RegistrarOcorrenciaActivity extends AppCompatActivity {
     }
 
     public void btnSendOccurrenceClick(View v){
-        StringRequest postRequest = new StringRequest(Request.Method.POST, wsNewOccurrenceUrlDev,
+        StringRequest postRequest = new StringRequest(Request.Method.POST, wsNewOccurrenceUrl,
                 new Response.Listener<String>()
                 {
                     @Override

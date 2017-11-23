@@ -4,39 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="50dp"
     tools:context="com.example.usuario.enklima.MainActivity">
+
+    <ImageView
+        android:id="@+id/imageViewIconLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/ic_lpolice" />
 
     <EditText
         android:id="@+id/txtLogin"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="68dp"
-        android:layout_marginRight="68dp"
-        android:layout_marginTop="141dp"
-        android:ems="10"
-        android:inputType="textPersonName" />
+        android:layout_below="@+id/imageViewIconLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:hint="Usuário"
+        android:inputType="textPersonName"
+        android:paddingTop="30dp" />
 
     <EditText
         android:id="@+id/txtPassword"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtLogin"
-        android:layout_alignStart="@+id/txtLogin"
+        android:layout_below="@+id/txtLogin"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:ems="10"
+        android:hint="Senha"
         android:inputType="textPassword" />
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtPassword"
-        android:layout_alignStart="@+id/txtPassword"
         android:layout_below="@+id/txtPassword"
-        android:layout_marginLeft="61dp"
-        android:layout_marginStart="61dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_marginTop="44dp"
         android:onClick="login"
         android:text="Login" />
