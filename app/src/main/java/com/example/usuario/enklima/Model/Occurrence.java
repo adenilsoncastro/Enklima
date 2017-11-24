@@ -8,6 +8,7 @@ public class Occurrence {
     private String titulo;
     private String descricao;
     private byte[] image;
+    public String teste;
 
     public String getId() {
         return id;

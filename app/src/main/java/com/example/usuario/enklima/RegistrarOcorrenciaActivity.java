@@ -14,16 +14,19 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.usuario.enklima.Model.Occurrence;
@@ -31,9 +34,11 @@ import com.example.usuario.enklima.Model.User;
 import com.example.usuario.enklima.Utils.FileUtils;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -116,44 +121,55 @@ public class RegistrarOcorrenciaActivity extends AppCompatActivity {
 
     public void btnSendOccurrenceClick(View v){
 
+        ocorrencia.setTitulo(txtTitulo.getText().toString());
+        ocorrencia.setDescricao(txtOcorrencia.getText().toString());
+
+        if(ocorrencia.getTitulo().isEmpty()){
+            Toast.makeText(RegistrarOcorrenciaActivity.this, "Título vazio!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(ocorrencia.getDescricao().isEmpty()){
+            Toast.makeText(RegistrarOcorrenciaActivity.this, "Descrição vazia!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        final JSONObject js = new JSONObject();
+        try
+        {
+            js.put("title", ocorrencia.getTitulo());
+            js.put("details", ocorrencia.getDescricao());
+            js.put("image",  Base64.encode(ocorrencia.getImage(), 1));
+        }
+        catch (JSONException e){
+            Toast.makeText(RegistrarOcorrenciaActivity.this, "Erro ao converter objeto para json!", Toast.LENGTH_LONG).show();
+        }
+
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 switch(i){
                     case DialogInterface.BUTTON_POSITIVE:
-                        StringRequest postRequest = new StringRequest(Request.Method.POST, wsNewOccurrenceUrl,
-                                new Response.Listener<String>()
-                                {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        Occurrence occurrenceFromWs = new Occurrence();
-                                        try {
-                                            occurrenceFromWs.JSonToOccurrence(response);
-                                            Toast.makeText(RegistrarOcorrenciaActivity.this, "Ocorrência enviada com sucesso!", Toast.LENGTH_LONG).show();
 
-                                        }
-                                        catch (JSONException e) {
-                                            e.printStackTrace();
-                                            Toast.makeText(RegistrarOcorrenciaActivity.this, "Erro!", Toast.LENGTH_LONG).show();
-                                        }
+                        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
+                                Request.Method.POST,wsNewOccurrenceUrl, js,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        Toast.makeText(RegistrarOcorrenciaActivity.this, "Ocorrência enviada com sucesso!", Toast.LENGTH_LONG).show();
                                     }
                                 },
-                                new Response.ErrorListener()
-                                {
+                                new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
-                                        Toast.makeText(RegistrarOcorrenciaActivity.this, "Erro ao enviar a ocorrência!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(RegistrarOcorrenciaActivity.this, "Erro ao enviar a ocorrência!" + error.getMessage(), Toast.LENGTH_LONG).show();
                                     }
-                                }
-                        ) {
-                            @Override
-                            protected Map<String, String> getParams() {
-                                Map<String, String>  params = new HashMap<String, String>();
-                                params.put("title", ocorrencia.getTitulo());
-                                params.put("details", ocorrencia.getDescricao());
-                                params.put("image", ocorrencia.getImage().toString());
 
-                                return params;
+                                }) {
+                            @Override
+                            public Map<String, String> getHeaders() throws AuthFailureError {
+                                HashMap<String, String> headers = new HashMap<String, String>();
+                                headers.put("Content-Type", "application/json; charset=utf-8");
+                                return headers;
                             }
                         };
                         break;
