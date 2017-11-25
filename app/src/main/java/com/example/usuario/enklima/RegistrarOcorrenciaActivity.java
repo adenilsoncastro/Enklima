@@ -38,6 +38,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -156,6 +157,9 @@ public class RegistrarOcorrenciaActivity extends AppCompatActivity {
                                     @Override
                                     public void onResponse(JSONObject response) {
                                         Toast.makeText(RegistrarOcorrenciaActivity.this, "Ocorrência enviada com sucesso!", Toast.LENGTH_LONG).show();
+                                        txtTitulo.setText("");
+                                        txtOcorrencia.setText("");
+                                        img.setImageBitmap(null);
                                     }
                                 },
                                 new Response.ErrorListener() {
@@ -172,6 +176,7 @@ public class RegistrarOcorrenciaActivity extends AppCompatActivity {
                                 return headers;
                             }
                         };
+                        queue.add(jsonObjReq);
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
