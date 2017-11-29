@@ -23,7 +23,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/lblTitulo"
+            android:id="@+id/lblTituloDetalhe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtTopo"
@@ -37,7 +37,7 @@
             android:id="@+id/txtTitulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lblTitulo"
+            android:layout_below="@+id/lblTituloDetalhe"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:inputType="textPersonName" />

@@ -11,11 +11,11 @@ import com.example.usuario.enklima.Model.User;
 
 public class BoasVindasActivity extends AppCompatActivity {
 
-    private TextView txtBoasVindas;
-    private User user;
-
     private ImageView imgRegister;
     private ImageView imgConsult;
+    private TextView txtBoasVindas;
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,6 @@ public class BoasVindasActivity extends AppCompatActivity {
                 ConsultarOcorrencias(view);
             }
         });
-
     }
 
     public void RegistrarOcorrencia(View v) {

@@ -3,12 +3,14 @@ package com.example.usuario.enklima.Model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Occurrence {
+import java.io.Serializable;
+
+public class Occurrence implements Serializable {
     private String id;
     private String titulo;
     private String descricao;
     private byte[] image;
-    public String teste;
+    private String idUsuario;
 
     public String getId() {
         return id;
@@ -49,5 +51,13 @@ public class Occurrence {
         this.titulo = jsonObj.getString("title");
         this.descricao = jsonObj.getString("details");
         this.image = jsonObj.getString("image").getBytes();
+    }
+
+    public String getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(String idUsuario) {
+        this.idUsuario = idUsuario;
     }
 }

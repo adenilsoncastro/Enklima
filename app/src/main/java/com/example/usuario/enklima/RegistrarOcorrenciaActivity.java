@@ -51,6 +51,7 @@ public class RegistrarOcorrenciaActivity extends AppCompatActivity {
     private final String wsNewOccurrenceUrl = wsUrl + "/occurrences/insert";
     private final String wsNewOccurrenceUrlDev = wsUrlDev + "/occurrences/insert";
 
+    private User user;
 
     private EditText txtTitulo;
     private EditText txtOcorrencia;
@@ -67,6 +68,9 @@ public class RegistrarOcorrenciaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_ocorrencia);
+
+        Intent i = getIntent();
+        user = (User)i.getSerializableExtra("user");
 
         txtTitulo = (EditText) findViewById(R.id.txtTitulo);
         txtOcorrencia = (EditText) findViewById(R.id.txtOcorrencia);
@@ -139,7 +143,9 @@ public class RegistrarOcorrenciaActivity extends AppCompatActivity {
         {
             js.put("title", ocorrencia.getTitulo());
             js.put("details", ocorrencia.getDescricao());
-            js.put("image",  Base64.encode(ocorrencia.getImage(), 1));
+            js.put("idUser", user.getId());
+            if(ocorrencia.getImage() != null)
+                js.put("image",  Base64.encode(ocorrencia.getImage(), 1));
         }
         catch (JSONException e){
             Toast.makeText(RegistrarOcorrenciaActivity.this, "Erro ao converter objeto para json!", Toast.LENGTH_LONG).show();
@@ -167,7 +173,6 @@ public class RegistrarOcorrenciaActivity extends AppCompatActivity {
                                     public void onErrorResponse(VolleyError error) {
                                         Toast.makeText(RegistrarOcorrenciaActivity.this, "Erro ao enviar a ocorrência!" + error.getMessage(), Toast.LENGTH_LONG).show();
                                     }
-
                                 }) {
                             @Override
                             public Map<String, String> getHeaders() throws AuthFailureError {

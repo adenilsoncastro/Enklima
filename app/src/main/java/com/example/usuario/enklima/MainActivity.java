@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, BoasVindasActivity.class);
         i.putExtra("user", userDev);
         startActivity(i);
-
     }
 
     public void loginn(View v){
