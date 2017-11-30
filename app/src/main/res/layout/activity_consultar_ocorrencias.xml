@@ -4,15 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_centerHorizontal="false"
+    android:layout_centerInParent="false"
+    android:layout_centerVertical="false"
     tools:context="com.example.usuario.enklima.ConsultarOcorrenciasActivity">
+
+    <ProgressBar
+        android:id="@+id/pbConsulta"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
 
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="267dp"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"></ListView>
+        android:layout_alignParentTop="true"
+        android:layout_below="@+id/pbConsulta">
+
+    </ListView>
 
 </RelativeLayout>

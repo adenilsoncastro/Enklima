@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -56,6 +57,7 @@ public class RegistrarOcorrenciaActivity extends AppCompatActivity {
     private EditText txtTitulo;
     private EditText txtOcorrencia;
     private ImageView img;
+    private ProgressBar pbRegistrar;
 
     private String mCurrentPhotoPath;
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -75,6 +77,7 @@ public class RegistrarOcorrenciaActivity extends AppCompatActivity {
         txtTitulo = (EditText) findViewById(R.id.txtTitulo);
         txtOcorrencia = (EditText) findViewById(R.id.txtOcorrencia);
         img = (ImageView) findViewById(R.id.img);
+        pbRegistrar = (ProgressBar)findViewById(R.id.pbRegistrar);
 
         ocorrencia = new Occurrence();
 
@@ -157,11 +160,14 @@ public class RegistrarOcorrenciaActivity extends AppCompatActivity {
                 switch(i){
                     case DialogInterface.BUTTON_POSITIVE:
 
+                        pbRegistrar.setVisibility(View.VISIBLE);
+
                         JsonObjectRequest jsonObjReq = new JsonObjectRequest(
                                 Request.Method.POST,wsNewOccurrenceUrl, js,
                                 new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
+                                        pbRegistrar.setVisibility(View.INVISIBLE);
                                         Toast.makeText(RegistrarOcorrenciaActivity.this, "Ocorrência enviada com sucesso!", Toast.LENGTH_LONG).show();
                                         txtTitulo.setText("");
                                         txtOcorrencia.setText("");
@@ -171,6 +177,7 @@ public class RegistrarOcorrenciaActivity extends AppCompatActivity {
                                 new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
+                                        pbRegistrar.setVisibility(View.INVISIBLE);
                                         Toast.makeText(RegistrarOcorrenciaActivity.this, "Erro ao enviar a ocorrência!" + error.getMessage(), Toast.LENGTH_LONG).show();
                                     }
                                 }) {

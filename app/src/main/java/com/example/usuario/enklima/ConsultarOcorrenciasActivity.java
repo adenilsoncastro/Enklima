@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -26,26 +27,29 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.view.View.VISIBLE;
+
 public class ConsultarOcorrenciasActivity extends AppCompatActivity {
 
     private ListView list;
     private OcorrenciaAdapter ocorrenciaAdapter;
     private RequestQueue queue;
 
+    private ProgressBar pbConsulta;
     private String ws = "http://35.167.241.68:5000/occurrences/getApproved";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consultar_ocorrencias);
-
+        pbConsulta = (ProgressBar)findViewById(R.id.pbConsulta);
         queue = Volley.newRequestQueue(this);
 
         BuildListView();
     }
 
     private void BuildListView(){
-
+        pbConsulta.setVisibility(VISIBLE);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, ws,
                 new Response.Listener<String>() {
                     @Override
@@ -63,17 +67,20 @@ public class ConsultarOcorrenciasActivity extends AppCompatActivity {
                                 listOcorrencia.add(ocorrencia);
                             }
                             setList(listOcorrencia);
+                            pbConsulta.setVisibility(View.INVISIBLE);
                         }
                         catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(ConsultarOcorrenciasActivity.this, "Erro!", Toast.LENGTH_LONG).show();
+                            pbConsulta.setVisibility(View.INVISIBLE);
+                            Toast.makeText(ConsultarOcorrenciasActivity.this, "Erro!", Toast.LENGTH_SHORT).show();
                         }
 
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ConsultarOcorrenciasActivity.this, "Deu ruim na chamada", Toast.LENGTH_LONG).show();
+                pbConsulta.setVisibility(View.INVISIBLE);
+                Toast.makeText(ConsultarOcorrenciasActivity.this, "Deu ruim na chamada", Toast.LENGTH_SHORT).show();
             }
         });
         queue.add(stringRequest);
